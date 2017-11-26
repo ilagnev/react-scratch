@@ -2,9 +2,9 @@ console.log(`hello i'm webpacked 🌚`);
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Greeting from "./greeting.jsx";
+import Layout from "./components/Layout";
 
 ReactDOM.render(
-    <Greeting/>,
+    <Layout/>,
     document.getElementById('root')
 );
