@@ -1,9 +1,45 @@
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+
 module.exports = {
     context: __dirname + "/src",
-    entry: "./app.js",
-  
-    output: {
-      filename: "app.js",
-      path: __dirname + "/dist",
+    entry: {
+        javascript: './app.js',
+        // html: './index.html',
     },
+  
+    module: {
+        loaders: [
+            {
+                test: /\.js$/,
+                exclude: /node_modules/,
+                loader: 'babel-loader'
+            },
+            {
+                test: /\.jsx$/,
+                exclude: /node_modules/,
+                loader: 'babel-loader'
+            },
+
+        ]
+    },
+
+    output: {
+        path: __dirname + "/dist",
+        filename: "app.min.js",
+    },
+
+    devServer: {
+        contentBase: __dirname + "/dist",
+        compress: true,
+        port: 9000
+    },
+
+    plugins: [
+        new HtmlWebpackPlugin({
+            template: './index.html',
+            filename: 'index.html',
+            title: 'scratch powered!',
+            inject: 'body'
+        })
+    ]
 };
