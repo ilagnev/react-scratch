@@ -1,5 +1,7 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
+//todo: test NODE_ENV=production
+
 module.exports = {
     context: __dirname + "/src",
     entry: {
