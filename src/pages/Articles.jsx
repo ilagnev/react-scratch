@@ -1,16 +1,11 @@
 import React from 'react';
 
 export default class Articles extends React.Component {
-    componentDidMount() {
-        const { history } = this.props;
-        console.log('history obj', history);
-        history.listen(e => {
-            console.log('listen', e.pathname);
-        });
-    }
     render() {
+        console.log(this.props);
+        const { params } = this.props.match;
         return (
-            <h1>Articles</h1>
+            <h1>Articles ({params.article})</h1>
         )
     }
 }
