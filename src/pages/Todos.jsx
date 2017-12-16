@@ -1,5 +1,6 @@
 import React from 'react';
 import Todo from '../components/Todo';
+import TodoStore from '../stores/TodoStore';
 
 export default class Todos extends React.Component {
     constructor (props) {
@@ -7,18 +8,7 @@ export default class Todos extends React.Component {
         props.setPageTitle('Todos');
         
         this.state = {
-            todos: [
-                {
-                    id: 1,
-                    title: "Learn react",
-                    complete: false,
-                },
-                {
-                    id: 2,
-                    title: "Find job",
-                    complete: false,
-                },
-            ]
+            todos: TodoStore.getAll()
         };
     }
     
