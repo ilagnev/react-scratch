@@ -6,6 +6,7 @@ import Nav from './components/Nav';
 import Home from './pages/Home';
 import Articles from './pages/Articles';
 import Article from './pages/Article';
+import Todos from './pages/Todos';
 import Settings from './pages/Settings';
 
 import Header from './components/Header'
@@ -45,6 +46,9 @@ export default class Layout extends React.Component {
                     )}/>
                     <Route exact path="/articles/:article" render={props => (
                         <Article {...props} setPageTitle={this.setPageTitle.bind(this)} />
+                    )}/>
+                    <Route exact path="/todos" render={props => (
+                        <Todos {...props} setPageTitle={this.setPageTitle.bind(this)} />
                     )}/>
                     <Route exact path="/settings" render={props => (
                         <Settings {...props} setPageTitle={this.setPageTitle.bind(this)} />

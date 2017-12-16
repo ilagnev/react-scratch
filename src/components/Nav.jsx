@@ -6,6 +6,7 @@ const Nav = (props) => {
     const active = {
         home: path === '/' ? 'active' : '',
         articles: path.match(/\/articles/) ? 'active' : '',
+        todos: path.match(/\/todos/) ? 'active' : '',
         settings: path.match(/\/settings/) ? 'active' : ''
     }
 
@@ -25,6 +26,7 @@ const Nav = (props) => {
                 <ul class="nav navbar-nav">
                     <li class={active.home}><Link to="/">Home</Link></li>
                     <li class={active.articles}><Link to="/articles">Articles</Link></li>
+                    <li class={active.todos}><Link to="/todos">Todos</Link></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li class={active.settings}><Link to="/settings">Settings</Link></li>
