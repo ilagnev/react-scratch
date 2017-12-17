@@ -5,7 +5,15 @@ import dispatcher from '../dispatcher';
 class TodoStore extends EventEmitter {
     constructor () {
         super()
+
+        this.loading = false;
+        this.todos = [];
         
+        //todo run it after storage check
+        this.initTodos();
+    }
+
+    initTodos() {
         this.todos = [
             {
                 id: 1,
@@ -18,6 +26,7 @@ class TodoStore extends EventEmitter {
                 complete: false,
             },
         ];
+        this.emit('changed');
     }
 
     createTodo(title) {
@@ -52,6 +61,11 @@ class TodoStore extends EventEmitter {
             }
             case "REMOVE_TODO": {
                 this.removeTodo(action.id);
+                break;
+            }
+            case "FETCH_TODOS_END": {
+                this.todos = action.todos;
+                this.emit('changed');
                 break;
             }
             default:
