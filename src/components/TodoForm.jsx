@@ -11,7 +11,8 @@ export default class TodoForm extends React.Component {
         }
     }
 
-    createTodo() {
+    createTodo(e) {
+        e.preventDefault();
         const todoTitle = this.state.inputValue;
 
         // check title before pushing to store
@@ -37,24 +38,32 @@ export default class TodoForm extends React.Component {
     render () {
         return (
         <div class="form-group">
-            <div class="input-group">
-                <span class="input-group-addon" style={{padding: 0}}>
-                    <button 
-                        onClick={this.loadTodo.bind(this)}
-                        class="btn btn-default" 
-                        style={{padding: "7px 15px"}} >
-                        <i class="fa fa-refresh" aria-hidden="true"></i>
-                    </button>
-                </span>
-                <input 
-                    type="text" 
-                    class="form-control" 
-                    value={this.state.inputValue}
-                    onChange={e => this.updateValue(e.target.value)} />
-                <span class="input-group-btn">
-                    <button onClick={this.createTodo.bind(this)} class="btn btn-default" type="button">Add</button>
-                </span>
-            </div>
+            <form onSubmit={this.createTodo.bind(this)}>
+                <div class="input-group">
+                    <span class="input-group-addon" style={{padding: 0}}>
+                        <button 
+                            onClick={this.loadTodo.bind(this)}
+                            type="button"
+                            class="btn btn-default" 
+                            style={{padding: "7px 15px"}} >
+                            <i class="fa fa-refresh" aria-hidden="true"></i>
+                        </button>
+                    </span>
+                    <input 
+                        type="text" 
+                        class="form-control" 
+                        value={this.state.inputValue}
+                        onChange={e => this.updateValue(e.target.value)} />
+                    <span class="input-group-btn">
+                        <button 
+                            onClick={this.createTodo.bind(this)} 
+                            type="button"
+                            class="btn btn-default" >
+                            Add
+                        </button>
+                    </span>
+                </div>
+            </form>
         </div>
         )
     }
