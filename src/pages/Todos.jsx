@@ -1,7 +1,7 @@
 import React from 'react';
 import Todo from '../components/Todo';
+import TodoForm from '../components/TodoForm';
 import TodoStore from '../stores/TodoStore';
-import * as TodoActions from '../actions/TodoActions';
 
 export default class Todos extends React.Component {
     constructor (props) {
@@ -28,14 +28,6 @@ export default class Todos extends React.Component {
         });
     }
 
-    createTodo() {
-        TodoActions.createTodo(Date.now());
-    }
-
-    loadTodo() {
-        TodoActions.loadTodos();
-    }
-
     render () {
         const { todos } = this.state;
 
@@ -44,11 +36,10 @@ export default class Todos extends React.Component {
         return (
             <div class="row">
                 <div class="col-md-offset-4 col-md-4">
+                    <TodoForm />
                     <ul class="list-group">
                         {todosList}
                     </ul>
-                    <button class="btn btn-default" onClick={this.createTodo.bind(this)}>create</button>
-                    <button class="btn btn-default" onClick={this.loadTodo.bind(this)}>load</button>
                 </div>
             </div>
         )
