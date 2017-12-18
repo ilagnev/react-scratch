@@ -23,15 +23,12 @@ export default class Todos extends React.Component {
     }
 
     updateTodosState() {
-        this.setState({
-            todos: TodoStore.getAll()
-        });
+        const todos = TodoStore.getAll();
+        this.setState({todos});
     }
 
     render () {
-        const { todos } = this.state;
-
-        const todosList = todos.map(todo => <Todo key={todo.id} todo={todo} />);
+        const todosList = this.state.todos.map(todo => <Todo key={todo.id} todo={todo} />);
 
         return (
             <div class="row">

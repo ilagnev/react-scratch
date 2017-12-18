@@ -5,35 +5,23 @@ import './Todo.css';
 export default class Todo extends React.Component {
     constructor(props) {
         super(props);
-
-        this.state = {todo: props.todo};
-
         this.toggleTodo = this.toggleTodo.bind(this);
         this.removeTodo = this.removeTodo.bind(this);
     }
 
     toggleTodo(e) {
-        //todo NOOOOOOOO, need to use dispatcher here insted of toggle state itself :(
-        const { todo } = this.state;
-        const newTodo = {
-            ...todo,
-            complete: !todo.complete,
-        };
-        this.setState({todo: newTodo});
-        
-        newTodo.complete
-            ? TodoActions.completeTodo(newTodo.id)
-            : TodoActions.uncompleteTodo(newTodo.id)
+        this.props.todo.complete
+            ? TodoActions.uncompleteTodo(this.props.todo.id)
+            : TodoActions.completeTodo(this.props.todo.id)
     }
 
     removeTodo(e) {
         e.preventDefault();
-        console.log('remove todo: ', this.state.todo);
-        TodoActions.removeTodo(this.state.todo.id);
+        TodoActions.removeTodo(this.props.todo.id);
     }
     
     render() {
-        const { todo } = this.state;
+        const { todo } = this.props;
         const checked = todo.complete ? 'checked' : '' ;
 
         return (
@@ -44,8 +32,7 @@ export default class Todo extends React.Component {
                     id={todo.id} 
                     checked={checked} />
                 <label for={todo.id}>
-                    {todo.id} {todo.title} 
-                    {/* <span class="badge"><a href="#" class="btn btn-info">X</a></span> */}
+                    {todo.title}
                     <button 
                         onClick={this.removeTodo}
                         type="button"
