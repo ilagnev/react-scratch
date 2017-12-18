@@ -22,3 +22,17 @@ export function loadTodos() {
         type: 'LOAD_TODOS'
     })
 }
+
+export function completeTodo(id){
+    dispatcher.dispatch({
+        type: 'COMPLETE_TODO',
+        id
+    })
+};
+
+export function uncompleteTodo(id){
+    dispatcher.dispatch({
+        type: 'UNCOMPLETE_TODO',
+        id
+    })
+};
