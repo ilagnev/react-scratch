@@ -2,6 +2,24 @@ import EventEmitter from 'events';
 import Todos from '../pages/Todos';
 import dispatcher from '../dispatcher';
 
+import * as TodoActions from '../actions/TodoActions';
+import LocalStorage from './LocalStorage';
+
+const defaultTodos = [
+    {
+        id: 1,
+        title: "Learn react",
+        complete: false,
+    },
+    {
+        id: 2,
+        title: "Find job",
+        complete: false,
+    },
+];
+
+export const LOCAL_STORAGE_KEY = 'react-scratch-todos';
+
 class TodoStore extends EventEmitter {
     constructor () {
         super()
@@ -9,35 +27,54 @@ class TodoStore extends EventEmitter {
         this.loading = false;
         this.todos = [];
         
-        //todo run it after storage check
+        // init local storage
+        this.storage = new LocalStorage(LOCAL_STORAGE_KEY);
+
+        // when store changed - sync data with store
+        this.on('changed', this.saveTodos.bind(this));
+        
         this.initTodos();
     }
 
+    // check data in localStorage, or init with default
     initTodos() {
-        this.todos = [
-            {
-                id: 1,
-                title: "Learn react",
-                complete: false,
-            },
-            {
-                id: 2,
-                title: "Find job",
-                complete: false,
-            },
-        ];
+        console.log('init todos, key: ', this.storage.checkKey())
+        if (this.storage.checkKey()) {
+            this.loadTodos();
+        } else {
+            this.updateTodos(defaultTodos);
+        }
+    }
+
+    updateTodos(todos) {
+        this.todos = todos;
         this.emit('changed');
     }
 
+    loadTodos() {
+        // emulate network delay
+        this.loading = true;
+        setTimeout(() => {
+            console.log('data loaded');
+            this.loading = false;
+            this.updateTodos(this.storage.getData());
+        }, 1000);
+    }
+
+    saveTodos() {
+        console.log('save todos -> localstorage', this.todos);
+        this.storage.saveData(this.todos);
+    }
+
     createTodo(title) {
-        const newId = this.todos[this.todos.length - 1].id + 1;
+        const newId = this.todos.length ? this.todos[this.todos.length - 1].id + 1 : 1;
         this.todos.push({
             id: newId,
             title,
             complete: false
         });
 
-        console.log(this.todos);
+        // console.log(this.todos);
         this.emit('changed');
     }
 
@@ -63,9 +100,8 @@ class TodoStore extends EventEmitter {
                 this.removeTodo(action.id);
                 break;
             }
-            case "FETCH_TODOS_END": {
-                this.todos = action.todos;
-                this.emit('changed');
+            case "LOAD_TODOS": {
+                this.loadTodos();
                 break;
             }
             default:
