@@ -28,7 +28,7 @@ class TodoStore extends EventEmitter {
         this.todos = [];
         
         // init local storage
-        this.storage = new LocalStorage(LOCAL_STORAGE_KEY);
+        this.storage = new LocalStorage(LOCAL_STORAGE_KEY, this.loadTodos.bind(this));
 
         // when store changed - sync data with store
         this.on('changed', this.syncTodos.bind(this));
@@ -54,11 +54,13 @@ class TodoStore extends EventEmitter {
     loadTodos() {
         // emulate network delay
         this.loading = true;
+        const randTimeout = Math.floor(Math.random() * 1000);
+        console.log("random timeout: ", randTimeout);
         setTimeout(() => {
             console.log('data loaded');
             this.loading = false;
             this.updateTodos(this.storage.getData());
-        }, 1000);
+        }, randTimeout);
     }
 
     syncTodos() {
@@ -74,7 +76,6 @@ class TodoStore extends EventEmitter {
             complete: false
         });
 
-        // console.log(this.todos);
         this.emit('changed');
     }
 

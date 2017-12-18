@@ -1,8 +1,11 @@
 class LocalStorage {
     constructor(key, updatedCallback = null) {
         this.key = key;
+        this.updatedCallback = updatedCallback;
 
-        window.addEventListener('change', this.checkLocalStorageUpdate.bind(this));
+        if (this.updatedCallback) {
+            window.addEventListener('storage', this.checkLocalStorageUpdate.bind(this));
+        }
     }
     setKey(key) {
         this.key = key
@@ -27,7 +30,7 @@ class LocalStorage {
 
     checkLocalStorageUpdate(e) {
         if (e.key === this.key) {
-            updatedCallback();
+            this.updatedCallback();
         }
     }
 
