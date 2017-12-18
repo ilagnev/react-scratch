@@ -81,7 +81,7 @@ class TodoStore extends EventEmitter {
 
     removeTodo(id) {
         const index = this.todos.findIndex(todo => todo.id === id);
-        if (index) {
+        if (index !== false) {
             this.todos.splice(index, 1);
             this.emit('changed');
         }
