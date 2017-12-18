@@ -13,14 +13,12 @@ export default class Todo extends React.Component {
     }
 
     toggleTodo(e) {
+        //todo NOOOOOOOO, need to use dispatcher here insted of toggle state itself :(
         const { todo } = this.state;
-        console.log('toggle todo: ', todo);
-
         const newTodo = {
             ...todo,
             complete: !todo.complete,
         };
-        console.log('new todo: ', newTodo);
         this.setState({todo: newTodo});
         
         newTodo.complete

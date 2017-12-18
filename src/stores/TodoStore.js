@@ -31,7 +31,7 @@ class TodoStore extends EventEmitter {
         this.storage = new LocalStorage(LOCAL_STORAGE_KEY);
 
         // when store changed - sync data with store
-        this.on('changed', this.saveTodos.bind(this));
+        this.on('changed', this.syncTodos.bind(this));
         
         this.initTodos();
     }
@@ -61,7 +61,7 @@ class TodoStore extends EventEmitter {
         }, 1000);
     }
 
-    saveTodos() {
+    syncTodos() {
         console.log('save todos -> localstorage', this.todos);
         this.storage.saveData(this.todos);
     }
@@ -80,9 +80,18 @@ class TodoStore extends EventEmitter {
 
     removeTodo(id) {
         const index = this.todos.findIndex(todo => todo.id === id);
-        this.todos.splice(index, 1);
-        
-        this.emit('changed');
+        if (index) {
+            this.todos.splice(index, 1);
+            this.emit('changed');
+        }
+    }
+
+    setComplete(id, isCompleted) {
+        const todoIndex = this.todos.findIndex(todo => todo.id === id);
+        if (todoIndex !== false) {
+            this.todos[todoIndex].complete = isCompleted;
+            this.updateTodos(this.todos);
+        }
     }
     
     getAll() {
@@ -102,6 +111,14 @@ class TodoStore extends EventEmitter {
             }
             case "LOAD_TODOS": {
                 this.loadTodos();
+                break;
+            }
+            case "COMPLETE_TODO": {
+                this.setComplete(action.id, true);
+                break;
+            }
+            case "UNCOMPLETE_TODO": {
+                this.setComplete(action.id, false);
                 break;
             }
             default:
