@@ -1,0 +1,38 @@
+.list-group-item.todo-item {
+    padding: 0;
+    margin: 0;
+    border: 0;
+}
+    /* .list-group-item.todo-item:hover {
+        color: #ebebeb;
+        background-color: #485563;
+        cursor: pointer;
+    } */
+
+.todo-item input {
+    display: none;
+}
+.todo-item input + label::before {
+    content: '⬜️';
+    margin-right: 10px;
+}
+    .todo-item input:checked + label::before {
+        content: '🌮';
+    }
+
+.todo-item label {
+    display: block;
+    padding: 10px 15px;
+    margin: 0;
+    font-size: 15px;
+    line-height: 30px;
+}
+    .todo-item label:hover {
+        color: #ebebeb;
+        background-color: #485563;
+        cursor: pointer;
+    }
+
+    .todo-item label .btn:hover {
+        background-color: #4e5d6c;
+    }
