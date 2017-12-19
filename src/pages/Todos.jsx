@@ -32,7 +32,7 @@ export default class Todos extends React.Component {
 
         return (
             <div class="row">
-                <div class="col-md-offset-4 col-md-4">
+                <div class="col-md-offset-3 col-md-6">
                     <TodoForm />
                     <ul class="list-group">
                         {todosList}
