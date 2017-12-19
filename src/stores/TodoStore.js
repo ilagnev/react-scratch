@@ -53,14 +53,21 @@ class TodoStore extends EventEmitter {
 
     loadTodos() {
         // emulate network delay
-        this.loading = true;
+        this.setLoading(true);
         const randTimeout = Math.floor(Math.random() * 1000);
         console.log("random timeout: ", randTimeout);
         setTimeout(() => {
             console.log('data loaded');
-            this.loading = false;
+            this.setLoading(false);
             this.updateTodos(this.storage.getData());
         }, randTimeout);
+    }
+
+    setLoading(isLoading) {
+        this.loading = isLoading;
+        this.loading
+            ? TodoActions.loadingStart()
+            : TodoActions.loadingEnd()
     }
 
     syncTodos() {
@@ -111,7 +118,11 @@ class TodoStore extends EventEmitter {
                 break;
             }
             case "LOAD_TODOS": {
-                this.loadTodos();
+                // release dispatcher action to prevent
+                // "Cannot dispatch in the middle of a dispatch"
+                setTimeout(() => {
+                    this.loadTodos();
+                }, 0);
                 break;
             }
             case "COMPLETE_TODO": {

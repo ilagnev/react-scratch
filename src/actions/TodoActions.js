@@ -23,6 +23,10 @@ export function loadTodos() {
     })
 }
 
+export const loadingStart = () => dispatcher.dispatch({type: 'LOADING_START'})
+export const loadingEnd = () => dispatcher.dispatch({type: 'LOADING_END'})
+
+
 export function completeTodo(id){
     dispatcher.dispatch({
         type: 'COMPLETE_TODO',

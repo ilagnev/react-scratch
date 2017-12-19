@@ -1,13 +1,34 @@
 import React from 'react';
-
 import * as TodoActions from '../actions/TodoActions';
+import dispatcher from '../dispatcher';
 
 export default class TodoForm extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            inputValue: ""
+            inputValue: "",
+            loading: false,
+        }
+
+        this.handleActions = this.handleActions.bind(this);
+    }
+
+    // listen for loading actions - to animate loading spinner
+    componentWillMount() {
+        this.state.token = dispatcher.register(this.handleActions);
+    }
+    componentWillUnmount() {
+        dispatcher.unregister(this.state.token);
+    }
+    handleActions(action) {
+        switch (action.type) {
+            case 'LOADING_START':
+                this.setState({loading: true});
+                break;
+            case 'LOADING_END':
+                this.setState({loading: false});
+                break;
         }
     }
 
@@ -36,6 +57,7 @@ export default class TodoForm extends React.Component {
     }
 
     render () {
+        const loading = this.state.loading ? 'fa-spin' : '';
         return (
         <div class="form-group">
             <form onSubmit={this.createTodo.bind(this)}>
@@ -46,7 +68,7 @@ export default class TodoForm extends React.Component {
                             type="button"
                             class="btn btn-default" 
                             style={{padding: "7px 15px"}} >
-                            <i class="fa fa-refresh" aria-hidden="true"></i>
+                            <i class={`fa fa-refresh ${loading}`} aria-hidden="true"></i>
                         </button>
                     </span>
                     <input 
