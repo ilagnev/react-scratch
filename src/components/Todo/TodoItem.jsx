@@ -1,8 +1,8 @@
 import React from 'react';
-import * as TodoActions from '../actions/TodoActions';
-import './Todo.css';
+import * as TodoActions from '../../actions/TodoActions';
+import './TodoItem.css';
 
-export default class Todo extends React.Component {
+export default class TodoItem extends React.Component {
     constructor(props) {
         super(props);
         this.toggleTodo = this.toggleTodo.bind(this);

@@ -1,6 +1,6 @@
 import React from 'react';
-import * as TodoActions from '../actions/TodoActions';
-import dispatcher from '../dispatcher';
+import * as TodoActions from '../../actions/TodoActions';
+import dispatcher from '../../dispatcher';
 
 export default class TodoForm extends React.Component {
     constructor(props) {

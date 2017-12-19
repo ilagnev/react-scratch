@@ -1,6 +1,6 @@
 import React from 'react';
-import Todo from '../components/Todo';
-import TodoForm from '../components/TodoForm';
+import Todo from '../components/Todo/TodoItem';
+import TodoForm from '../components/Todo/TodoForm';
 import TodoStore from '../stores/TodoStore';
 
 export default class Todos extends React.Component {

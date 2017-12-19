@@ -71,7 +71,6 @@ class TodoStore extends EventEmitter {
     }
 
     syncTodos() {
-        console.log('save todos -> localstorage', this.todos);
         this.storage.saveData(this.todos);
     }
 
