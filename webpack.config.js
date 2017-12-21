@@ -1,44 +1,45 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const webpack = require('webpack');
 
-//todo: test NODE_ENV=production
+const DEV = process.env.NODE_ENV !== 'production';
+// console.log('DEV ENV:', DEV);
+
+const devPlugins = DEV ? [
+
+] : [];
 
 module.exports = {
     context: __dirname + "/src",
     entry: {
         javascript: './app.js',
-        // html: './index.html',
+    },
+    output: {
+        path: __dirname + '/dist',
+        filename: 'app.min.js',
+        // publicPath: '/react-scratch/',
     },
   
     module: {
-        loaders: [
+        rules: [
             {
                 test: /\.jsx?$/,
                 exclude: /node_modules/,
-                loader: 'babel-loader'
+                loader: 'babel-loader',
+                options: {
+                    presets: ["es2015", "react"],
+                    plugins: ["react-html-attrs", "transform-object-rest-spread"]
+                }
             },
             {
                 test: /\.css$/,
                 exclude: /node_modules/,
-                loaders: ['style-loader', 'css-loader']
+                use: ['style-loader', 'css-loader']
             }
-
         ]
     },
     resolve: {
         extensions: ['.js', '.jsx']
     },
-
-    output: {
-        path: __dirname + "/dist",
-        filename: "app.min.js",
-    },
-
-    devServer: {
-        contentBase: __dirname + "/dist",
-        compress: true,
-        port: 9000
-    },
-
     plugins: [
         new HtmlWebpackPlugin({
             template: './index.html',
@@ -46,5 +47,12 @@ module.exports = {
             title: 'scratch powered!',
             inject: 'body'
         })
-    ]
-};
+    ].concat(devPlugins),
+    
+    devtool: DEV && 'source-map',
+    devServer: {
+        contentBase: __dirname + "/dist",
+        // compress: true,
+        port: 9000
+    }
+}
