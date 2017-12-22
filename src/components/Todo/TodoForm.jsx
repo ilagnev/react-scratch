@@ -9,6 +9,7 @@ export default class TodoForm extends React.Component {
         this.state = {
             inputValue: "",
             loading: false,
+            warning: false,
         }
 
         this.handleActions = this.handleActions.bind(this);
@@ -38,7 +39,7 @@ export default class TodoForm extends React.Component {
 
         // check title before pushing to store
         if (todoTitle.length === 0) {
-            //todo show ui message
+            this.setState({warning: true});
             return console.error('title must be not empty');
         }
 
@@ -52,22 +53,23 @@ export default class TodoForm extends React.Component {
 
     updateValue(newValue) {
         this.setState({
-            inputValue: newValue
+            inputValue: newValue,
+            warning: false,
         });
     }
 
     render () {
         const loading = this.state.loading ? 'fa-spin' : '';
+        const warning = this.state.warning ? 'has-warning' : '';
         return (
-        <div class="form-group">
+        <div class={`form-group ${warning}`}>
             <form onSubmit={this.createTodo.bind(this)}>
                 <div class="input-group">
-                    <span class="input-group-addon" style={{padding: 0}}>
+                    <span class="input-group-btn" style={{padding: 0}}>
                         <button 
                             onClick={this.loadTodo.bind(this)}
                             type="button"
-                            class="btn btn-default" 
-                            style={{padding: "7px 15px"}} >
+                            class="btn btn-default" >
                             <i class={`fa fa-refresh ${loading}`} aria-hidden="true"></i>
                         </button>
                     </span>
@@ -75,6 +77,7 @@ export default class TodoForm extends React.Component {
                         type="text" 
                         class="form-control" 
                         value={this.state.inputValue}
+                        placeholder="type new todo title"
                         onChange={e => this.updateValue(e.target.value)} />
                     <span class="input-group-btn">
                         <button 
